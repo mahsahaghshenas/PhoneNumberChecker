@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel=”stylesheet” href=”https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css”>
+    <title>PNC</title>
+    <style>
+
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body{
+            width: 100%;
+            height: 100vh;
+            background-image: linear-gradient(54deg, #C6FFDD, #FBD786, #f7797d);
+            font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+        }
+
+        .box{
+            width: 300px;
+            min-height: 250px;
+            height: auto;
+            background-color: white;
+            padding: 20px 30px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+        }
+        .box>h1{
+            text-align: center;
+            border-bottom: 1px solid black;
+            margin-bottom: 20px;
+        }
+        .box>p{
+            margin: 30px 0;
+        }
+        .box>button{
+            width: 50%;
+            float: left;
+            padding: 15px 0;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .box>p:nth-of-type(2){
+            display: none;
+        }
+        .box0{
+            transition: 0.5s;
+        }
+        .box0>p:last-child{
+            cursor: pointer;
+        }
+        .box1{
+            display: none;
+            transition: 0.5s;
+        }
+        .box1>p{
+            text-align: center;
+        }
+        .box1>input{
+            width: 80%;
+            height: 30px;
+            padding-left: 7px;
+        }
+
+        .box1>h2{
+            font-size: 40px;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .box1>ul{
+            margin-top: 30px;
+            list-style-type: none;
+            display: none;
+        }
+        .box1>ul>li>span{
+            background-color: palevioletred;
+            border: 1px solid white;
+        }
+        .box1>button{
+            transform: translate(50%, 10%);
+            display: none;
+        }
+        .box2{
+            display: none;
+            transition: 0.5s;
+        }
+        .box2>p{
+            text-align: center;
+            font-size: 13px;
+            margin: 10px 0;
+        }
+        .box2>input{
+            width: 100%;
+            height: 40px;
+            padding: 8px;
+            margin: 3px 0 10px 0;
+        }
+        .box2>span{
+            display: inline-block;
+            text-align: center;
+            width: 100%;
+            color: white;
+            border-radius: 5px;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="box box0">
+        <h1>PNC robot</h1>
+        <p>hi, how are you ?</p>
+        <button onclick="_true()">I'm fine</button>
+        <button onclick="_false()">not fine</button>
+        <p onclick="window.close()">I'm sorry, see you later</p>
+    </div>
+    <div class="box box1">
+        <h3>Tell me your number...</h3>
+        <input onkeyup="check_number()" type="number" placeholder="Phone number">
+        <h2 onclick="_addNumber()">+</h2>
+        <ul>
+            <li>How many char count : <span></span></li>
+            <li>How many phone added : <span></span></li>
+            <li>The first tow numbers : <span></span></li>
+            <li>Operator : <span></span></li>
+        </ul>
+        <button onclick="_calc()">Finish</button>
+    </div>
+    
+    <div class="box box2">
+        <h1>PNC robot</h1>
+        <p>Your phone number will be validated by PNC robot</p>
+        <input onkeyup="_calc1()" type="number" placeholder="please enter your phone number..." id="main_num">
+        <span></span>
+    </div>
+
+
+    <script>
+        var x=0;
+        var i=0;
+        var num = new Array();
+        var two_number = new Array();
+        var operator = new Array();
+        function _true(){
+            document.querySelector(".box1").style.display="block";
+            document.querySelector(".box0").style.left="-1000px";
+        }
+
+        /////////////////////////////
+        function check_number(){
+            document.querySelector(".box1>ul").style.display="block";
+            x=document.querySelector(".box1>input").value;
+            if ((x.length)>10){
+                x=x.substr(0,11);
+                document.querySelector(".box1>input").value=x;                
+            }
+            console.log(x);
+            document.querySelector(".box1>ul>li:nth-of-type(1)>span").innerHTML=x.length;
+        }
+
+        //////////////////////////////
+
+        function _calc(){
+            document.querySelector(".box2").style.display="block";
+            document.querySelector(".box1").style.left="-1000px";
+        }
+
+        //////////////////////////////
+
+        function _calc1(){
+            document.querySelector(".box2>span").innerHTML="";
+            var y = document.getElementById("main_num").value;
+            if(y.length==2){
+                var z=y.substr(0,2);
+
+                for(var q=0;q<two_number.length;q++){
+                    if(z==two_number[q]){
+                        document.querySelector(".box2>span").innerHTML="Your number has been correct , untill now.";
+                        document.querySelector(".box2>span").style.background="green";
+                        document.querySelector(".box2>span").style.padding="5px";
+                        break;
+                    }else{ 
+                        document.querySelector(".box2>span").innerHTML="Sorry! According to my knowledge your phone number is incorrect.";
+                        document.querySelector(".box2>span").style.background="red";
+                        document.querySelector(".box2>span").style.padding="5px";
+                    }
+                }
+            }else if(y.length==4){
+                var z1=y.substr(2,4);
+                for(var q=0;q<operator.length;q++){
+                    if(z1==operator[q]){
+                        document.querySelector(".box2>span").innerHTML="Your number is correct.";
+
+                        document.querySelector(".box2>span").style.background="green";
+                        
+                        document.querySelector(".box2>span").style.padding="5px";
+                        break;
+                    }else{
+                        document.querySelector(".box2>span").innerHTML="Sorry! According to my knowledge your operator is incorrect.";
+                        document.querySelector(".box2>span").style.background="red";
+                        document.querySelector(".box2>span").style.padding="5px";
+                    }
+                }
+            }
+        }
+
+        //////////////////////////////
+        function _addNumber(){
+            document.querySelector(".box1>button").style.display="block";
+            num.push(document.querySelector(".box1>input").value);
+            console.log(num);
+            document.querySelector(".box1>input").value=null;
+
+            document.querySelector(".box1>ul>li:nth-of-type(2)>span").innerHTML=num.length;
+
+            two_number.push(num[i].slice(0,2));
+            document.querySelector(".box1>ul>li:nth-of-type(3)>span").innerHTML=two_number;
+
+            operator.push(num[i].slice(2,4));
+            document.querySelector(".box1>ul>li:nth-of-type(4)>span").innerHTML=operator;
+
+            i++;
+            console.log(two_number);
+        }
+
+
+        function _false(){
+            document.querySelector(".box>p:nth-of-type(2)").style.display="block";
+            document.querySelector(".box>p:nth-of-type(1)").style.display="none";
+            document.querySelector(".box>button:nth-of-type(1)").style.display="none";
+            document.querySelector(".box>button:nth-of-type(2)").style.display="none";
+            
+        }
+
+
+
+    </script>
+
+
+
+</body>
+</html>
